@@ -1,0 +1,22 @@
+Species                   Venom		Tentacles   Internal_Shell    Blue_rings	Fin		Pupil
+"Metasepia_pfefferi"	   yes		2	    cuttlebone        no		long		slit
+"Hapalochlaena_lunulata"   yes		no          no	      	      yes		no		rectangular
+"Hapalochlaena_maculosa"   yes		no	    no		      yes		no		rectangular	
+"Hapalochlaena_fasciata"   yes	    	no	    no		      yes		no		rectangular	
+"Octopus_vulgaris"	   no		no	    no		      no		no		rectangular
+"Dosidicus_gigas"	   no		2	    pen		      no		triangular	circular
+"Todarodes_pacificus" 	   no		2	    pen		      no		triangular	circular
+"Sepioloidea_lineolata"	   yes		2	    pen 	      no		long		circular
+"Architeuthis_dux"	   no		2	    pen		      no		triangular	circular
+"Callistoctopus_ornatus"   no		no	    no		      no		no		rectangular
+"Enteroctopus_dofleini"    no		no	    no		      no		no		rectangular
+"Thaumoctopus_mimicus"	   no		no	    no		      no		no		rectangular
+"Amphioctopus_marginatus"  no		no	    no		      no		no		rectangular
+"Octopus_briareus"	   no		no	    no		      no		no		rectangular
+"Sepia_apama"		   no		2	    cuttlebone	      no		long		slit
+"Sepia_officinalis"        no		2	    cuttlebone	      no		long		slit
+"Sepia_pharaonis"	   no		2	    cuttlebone	      no		long		slit
+"Sepia_mestus"		   no		2	    cuttlebone	      no		long		slit
+"Sepiola_atlantica" 	   no		2	    pen		      no		triangular	circular
+"Sepioteuthis_lessoniana"  no		2	    pen		      no		long		circular
+
