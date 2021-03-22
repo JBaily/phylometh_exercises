@@ -1,0 +1,34 @@
+treefile = /Users/lab/GitHub_files/phylometh_exercises/Dating_trees/Dating_cephalopod_tree/cephalopod_pruned
+
+numsites = 409
+thorough
+log_pen
+
+
+mrca = NEOCOLEOIDEA Hapalochlaena_lunulata Metasepia_pfefferi
+min = NEOCOLEOIDEA 195
+max = NEOCOLEOIDEA 205
+#mrca = DECAPODIFORMES Metasepia_pfefferi Sepiola_atlantica
+#min = DECAPODIFORMES 115
+#max = DECAPODIFORMES 125
+#mrca = SEPIOIDEA Sepia_officinalis Metasepia_pfefferi
+#min = SEPIOIDEA 45
+#max = SEPIOIDEA 50
+#mrca = OCTOPODA Hapalochlaena_lunulata Enteroctopus_dofleini
+#min = OCTOPODA 145
+#max = OCTOPODA 155
+
+#prime
+
+#cross-validation analysis - none
+
+#smoothing value
+
+#Best optimization parameters
+opt = 1
+optad = 2
+optcvad = 5
+
+#Output file
+outfile = ceph_2_chrono.tre
+

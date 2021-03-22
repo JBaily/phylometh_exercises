@@ -1,0 +1,29 @@
+treefile = /Users/lab/GitHub_files/phylometh_exercises/Dating_trees/export_txt
+
+numsites = 898
+thorough
+log_pen
+
+
+mrca = PRIMATES Homo_sapiens Lemur_catta
+min = PRIMATES 63
+max = PRIMATES 66
+
+#prime
+
+#optimization parameters
+
+#cross-validation analysis
+
+#smoothing value
+
+#Best optimization parameters
+opt = 2
+moredetail
+optad = 2
+moredetailad
+optcvad = 2
+
+#Output file
+outfile = Tree_2_chrono.tre
+
