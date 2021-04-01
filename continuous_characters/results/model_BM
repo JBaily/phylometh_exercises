@@ -1,0 +1,22 @@
+GEIGER-fitted comparative model of continuous data
+ fitted ‘BM’ model parameters:
+	sigsq = 1.579205
+	z0 = 0.503871
+
+ model summary:
+	log-likelihood = -16.806581
+	AIC = 37.613161
+	AICc = 38.470304
+	free parameters = 2
+
+Convergence diagnostics:
+	optimization iterations = 100
+	failed iterations = 0
+	number of iterations with same best fit = 100
+	frequency of best fit = 1.00
+
+ object summary:
+	'lik' -- likelihood function
+	'bnd' -- bounds for likelihood search
+	'res' -- optimization iteration summary
+	'opt' -- maximum likelihood parameter estimates

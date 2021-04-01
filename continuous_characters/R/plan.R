@@ -34,26 +34,48 @@ plan <- drake_plan(
   phy_row_nam = first_to_row(phy_conv_swap, "mantle_length"),
   rate_BM1 = evo_rate(new_tree, phy_row_nam, model="BM"),
   
-  #BM1 <- geiger::fitContinuous(tree, cleaned.continuous, model="BM")
-  #print(paste("The rate of evolution is", _____, "in units of", _______))
-  #OU1 <- fitContinuous(tree, cleaned.continuous, model="OU")
-  #par(mfcol(c(1,2)))
-  #plot(tree, show.tip.label=FALSE)
-  #ou.tree <- rescale(tree, model="OU", ___alpha____)
-  #plot(ou.tree)
+  print(paste("The rate of evolution is", rate_BM1$opt$sigsq, 
+  "in units of centimeters per million years")),
+  
+  rate_OU1 = evo_rate(new_tree, phy_row_nam, model="OU"),
+  print(paste("The rate of evolution is", rate_OU1$opt$sigsq, 
+              "in units of meters per hundred million years")),
+  par(mfcol = (c(1,2))),
+  plot(new_tree, show.tip.label=FALSE),
+  ou.tree = rescale(new_tree, model="OU", rate_OU1$opt$alpha),
+  plot(ou.tree),
+  
+  pdf(file="results/OU_tree"),
+  plot(new_tree, show.tip.label=FALSE),
+  plot(ou.tree),
+  dev.off(),
   
   #Compare Trees
-  #AIC.BM1 <- ________FIGURE_OUT_HOW_TO_DO_THIS_____
-  #AIC.OU1 <- ________FIGURE_OUT_HOW_TO_DO_THIS_____
-  #delta.AIC.BM1 <- ________FIGURE_OUT_HOW_TO_DO_THIS_____
-  #delta.AIC.OU1 <- ________FIGURE_OUT_HOW_TO_DO_THIS_____
+  AIC.BM1 = rate_BM1$opt$aicc,
+  AIC.OU1 = rate_OU1$opt$aicc,
+  delta.AIC.BM1 = AIC.BM1 - rate_BM1$opt$aic,
+  delta.AIC.OU1 = AIC.OU1 - rate_OU1$opt$aic,
   
-  #Be thorough--do a thorough numerical search
-  #one.discrete.char <- _____________
-  #reconstruction.info <- ace(one.discrete.char, tree, type="discrete",
-  #                           method="ML", CI=TRUE)
-  #best.states <- colnames(reconstruction.info$lik.anc)[apply(
-  #  reconstruction.info$lik.anc, 1, which.max)]
+  print(paste("The delta AIC of BM1 is",delta.AIC.BM1,
+              "and the delta AIC of OU1 is", delta.AIC.OU1,
+              ".  Therefore,", is.better(delta.AIC.OU1, name1="OU", 
+                                         delta.AIC.BM1, name2="BM"))),
+  
+  #OUwie runs
+  
+  single.data = read.csv(file="data/taxa_binary_discrete.csv", sep = "",
+                       stringsAsFactors=FALSE, row.names = 1, header= TRUE),
+  cleaned.single = CleanData(tree, single.data), 
+  new_data_single = data_prune(tree, single.data),
+  two_times_single = name_changer_2(cleaned.single$data, 
+                                    cleaned.single$phy$tip.label, "Tentacles"),
+  phy_temp_single = swap_orient(as.data.frame(two_times_single)),
+  one.discrete.char = phy_temp_single,
+  reconstruction_info = ace(one.discrete.char, new_tree, type="discrete",
+                             method="ML", CI=TRUE),
+  save_me(reconstruction_info, "reconstruction_info"),
+  best.states = colnames(reconstruction_info$lik.anc)[apply(
+    reconstruction_info$lik.anc, 1, which.max)],
   #labeled.tree <- ________________
   #nodeBased.OUMV <- OUwie(tree, cleaned.continuous,model="OUMV", 
   #                        simmap.tree=FALSE, diagn=FALSE)

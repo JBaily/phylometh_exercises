@@ -1,0 +1,20 @@
+
+    Ancestral Character Estimation
+
+Call: ace(x = one.discrete.char, phy = new_tree, type = "discrete", 
+    method = "ML", CI = TRUE)
+
+    Log-likelihood: -2.557189 
+
+Rate index matrix:
+             no_tentacles tentacles
+no_tentacles            .         1
+tentacles               1         .
+
+Parameter estimates:
+ rate index estimate std-err
+          1   0.2517  0.1829
+
+Scaled likelihoods at the root (type '...$lik.anc' to get them for all nodes):
+no_tentacles    tentacles 
+   0.2729755    0.7270245 

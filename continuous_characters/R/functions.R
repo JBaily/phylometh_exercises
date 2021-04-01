@@ -11,7 +11,19 @@ CleanData <- function(phy, data) {
   
   treedata(phy, data, sort = TRUE, warnings = TRUE)
   
-}  
+}
+
+save_me <- function(thing, name){
+  
+  temp <- thing
+  #name <- deparse(quote(thing))
+  filename <- paste0("results/", name)
+  print(filename)
+  sink(filename)
+  print(temp)
+  sink()
+  
+}
 
 data_prune <- function(phy, data){
   
@@ -98,8 +110,30 @@ plot_tree <- function(tree, file, label) {
   dev.off()
 }
 
+is.better <- function(rate1, name1, rate2, name2){
+  
+  if(rate1 > rate2){
+    
+    return(paste0(name2, " is better than ", name1))
+    
+  }
+  
+  else{
+    
+    return(paste0(name1, " is better than ", name2))
+    
+  }
+  
+}
+
 evo_rate <- function(tree, data, model_1) {
  
-  BM1 <- geiger::fitContinuous(tree, data, model = model_1)
+  BM1 <- geiger::fitContinuous(tree, data, model = model_1, ncores=1)
+  
+  filename = paste0("results/model_",model_1)
+  sink(filename)
   print(BM1)
+  sink()
+  
+  return(BM1)
 }

@@ -1,0 +1,23 @@
+GEIGER-fitted comparative model of continuous data
+ fitted ‘OU’ model parameters:
+	alpha = 2.718282
+	sigsq = 2.724388
+	z0 = 0.521856
+
+ model summary:
+	log-likelihood = -15.707505
+	AIC = 37.415011
+	AICc = 39.261165
+	free parameters = 3
+
+Convergence diagnostics:
+	optimization iterations = 100
+	failed iterations = 48
+	number of iterations with same best fit = NA
+	frequency of best fit = NA
+
+ object summary:
+	'lik' -- likelihood function
+	'bnd' -- bounds for likelihood search
+	'res' -- optimization iteration summary
+	'opt' -- maximum likelihood parameter estimates
