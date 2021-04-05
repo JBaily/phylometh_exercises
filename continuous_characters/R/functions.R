@@ -25,6 +25,23 @@ save_me <- function(thing, name){
   
 }
 
+save_jpeg <- function(pic, name){
+  
+  filename = paste0("results/", name)
+  jpeg(file=filename)
+  plot(pic)
+  dev.off()
+  
+}
+
+change_tips <- function(tree, new_labels){
+  
+  temp <- tree
+  temp$node.label <- new_labels
+  return(temp)
+  
+}
+
 data_prune <- function(phy, data){
   
   if_diffs <- name.check(phy, data)
@@ -110,17 +127,19 @@ plot_tree <- function(tree, file, label) {
   dev.off()
 }
 
-is.better <- function(rate1, name1, rate2, name2){
+is.better <- function(rate1, name1, delta1, rate2, name2, delta2){
   
   if(rate1 > rate2){
     
-    return(paste0(name2, " is better than ", name1))
+    return(paste0(name2, " is better than ", name1, ",with a support of a delta",
+                  " AIC of ", delta1))
     
   }
   
   else{
     
-    return(paste0(name1, " is better than ", name2))
+    return(paste0(name1, " is better than ", name2, ",with a support of a delta",
+                  " AIC of ", delta2))
     
   }
   
@@ -137,3 +156,142 @@ evo_rate <- function(tree, data, model_1) {
   
   return(BM1)
 }
+
+ouwie_data <- function(cont_data, regime_data){
+  
+  names <- name_changer(cont_data, "species")
+  regime = swap_orient(regime_data)
+  temp2 <- data.frame("species"= names[,1], "regime"=regime[,1],
+                     "continuous"=names[,2])
+  print(temp2)
+  return(temp2)
+  
+}
+
+list_names <- function(models, values){
+  
+  for(i in 1:length(models)){
+    names(values)[i] <- models[[i]]
+  }
+  
+  return(values)
+}
+
+all_OUwie <- function(models, phylo, data_form){
+  
+  #mod <- models[[1]]
+  blah2 <- OUwie::OUwie(phy=phylo, data=data_form, model=models[[1]],
+                simmap.tree=FALSE, diagn=FALSE)
+  blah <- list(blah2)
+  
+  for(i in 2:length(models)){
+    
+    product <- OUwie(phy=phylo, data=data_form, model=models[[i]],
+                     simmap.tree=FALSE, diagn=FALSE)
+    
+    filename = paste0("results/OUwie_model_",models[[i]])
+    sink(filename)
+    print(product)
+    sink()
+    
+    blah[[length(blah)+1]] <- product
+  }
+  for(i in 1:length(models)){
+    names(blah)[i] <- models[[i]]
+  }
+  
+  print(blah)
+  return(blah)
+}
+
+mass_likelihood <- function(tree, data, model, alpha, likelihood, best_mod){
+for (i in sequence(length(alpha))) {
+  likelihood[i] <-  OUwie.fixed(tree, data, model=model, 
+                alpha=rep(alpha[i],2), 
+                sigma.sq=best_mod$solution[2,],
+                theta=best_mod$theta[,1])$loglik
+}
+  return(likelihood)
+}
+
+plot_alpha <- function(x, y, xlim, ylim, best){
+  
+  plot(x=x, y=y, xlab="alpha values", ylab="likelihood values", 
+             type="l", bty="n", xlim=xlim, ylim=ylim)
+  points(x=best$solution[1,1], y=best$loglik, pch=16, col="red")
+  text(x=best$solution[1,1], y=best$loglik, "unconstrained best", 
+       pos=4, col="red")
+  
+  abline(h= best$loglik - 2, lty="dotted") #Two log-likelihood
+
+  jpeg(filename="results/alpha_vs_likelihood")
+  plot(x=x, y=y, xlab="alpha values", ylab="likelihood values", 
+       type="l", bty="n", xlim=xlim, ylim=ylim)
+  points(x=best$solution[1,1], y=best$loglik, pch=16, col="red")
+  text(x=best$solution[1,1], y=best$loglik, "unconstrained best", 
+       pos=4, col="red")
+  abline(h= best$loglik - 2, lty="dotted")
+  dev.off()
+} 
+
+mass_likelihood_theta <- function(tree, data, model, reps, best, theta1, theta2, 
+                                  likelihood){
+  for (i in sequence(reps)) {
+    likelihood[i] <-  OUwie.fixed(tree, data, model=model, 
+                                  alpha=best$solution[1,], 
+                                  sigma.sq=best$solution[2,],
+                                  theta=c(theta1[i],
+                                          theta2[i]))$loglik
+  }
+  print(likelihood)
+  return(likelihood)
+  
+}
+
+inter_graph <- function(points_inter, theta1, theta2, best, Reg, trait){
+  
+  contour(points_inter, xlim=range(c(theta1, theta2)), 
+          ylim=range(c(theta1, theta2)), xlab="Theta 1", ylab="Theta 2", 
+          levels=c(2,5,10), add=FALSE,lwd=1, bty="n", asp=1)
+  
+  points(x=best$theta[1,1], y=best$theta[2,1], col="red", pch=16)
+  points(x=trait[which(Reg=="tentacles")],y=rep(min(c(theta1, theta2)), 
+                                                length(which(Reg=="tentacles"))),
+         pch=18, col=rgb(0,0,0,.3)) #the tip values in regime 1, plotted along x axis
+  
+  points(y=trait[which(Reg=="no_tentacles")],x=rep(min(c(theta1, theta2)), 
+                                                   length(which(Reg=="no_tentacles"))), 
+         pch=18, col=rgb(0,0,0,.3)) #the tip values in regime 2, plotted along y axis
+  
+  jpeg(filename="results/interpolated_graph")
+  contour(points_inter, xlim=range(c(theta1, theta2)), 
+          ylim=range(c(theta1, theta2)), xlab="Theta 1", ylab="Theta 2", 
+          levels=c(2,5,10), add=FALSE,lwd=1, bty="n", asp=1)
+  points(x=best$theta[1,1], y=best$theta[2,1], col="red", pch=16)
+  points(x=trait[which(Reg=="tentacles")],y=rep(min(c(theta1, theta2)), 
+                                                length(which(Reg=="tentacles"))),
+         pch=18, col=rgb(0,0,0,.3)) 
+  points(y=trait[which(Reg=="no_tentacles")],x=rep(min(c(theta1, theta2)), 
+                                                   length(which(Reg=="no_tentacles"))), 
+         pch=18, col=rgb(0,0,0,.3))
+  dev.off()
+
+}
+
+name_it <- function(Vector, Names){
+  
+  temp <- Vector
+  names(temp) <- Names  
+  return(temp)
+  print(temp)
+}
+
+save_me_general <- function(thing, name){
+  
+  filename <- paste0("results/",name)
+  sink(file=filename)
+  print(thing)
+  sink()
+}
+
+

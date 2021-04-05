@@ -1,0 +1,15 @@
+
+Fit
+       lnL      AIC     AICc      BIC model ntax
+ -16.80661 37.61322 38.47037 39.27965   BM1   17
+
+Rates
+   alpha sigma.sq 
+      NA 1.580386 
+
+Optima
+                 1
+estimate 0.5038717
+se       0.5775543
+
+Arrived at a reliable solution 

@@ -1,0 +1,21 @@
+
+Fit
+       lnL      AIC     AICc     BIC model ntax
+ -16.80658 39.61316 41.45931 42.1128   OU1   17
+
+
+Rates
+      alpha    sigma.sq 
+0.000000001 1.579140986 
+
+Optima
+                 1
+estimate 0.5038710
+se       0.5773268
+
+
+Half life (another way of reporting alpha)
+    alpha 
+693147181 
+
+Arrived at a reliable solution 

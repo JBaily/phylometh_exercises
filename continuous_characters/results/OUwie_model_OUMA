@@ -1,0 +1,22 @@
+
+Fit
+      lnL       AIC      AICc       BIC model ntax
+ 125.0004 -240.0008 -234.5463 -235.8347  OUMA   17
+
+
+Rates
+         no_tentacles tentacles
+alpha    2.013014e-05  97.63070
+sigma.sq 9.790927e+01  97.90927
+
+Optima
+         no_tentacles tentacles
+estimate 3.744773e-20 0.6524535
+se       0.000000e+00 0.2135044
+
+
+Half life (another way of reporting alpha)
+no_tentacles    tentacles 
+3.443329e+04 7.099685e-03 
+
+Arrived at a reliable solution 

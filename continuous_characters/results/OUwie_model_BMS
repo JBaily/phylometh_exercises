@@ -1,0 +1,16 @@
+
+Fit
+       lnL      AIC     AICc      BIC model ntax
+ -11.26914 28.53828 30.38444 31.03792   BMS   17
+
+Rates
+         no_tentacles tentacles
+alpha              NA        NA
+sigma.sq    0.1323827  2.385022
+
+Optima
+         no_tentacles tentacles
+estimate    0.4543652 0.4543652
+se          0.6154020 0.6154020
+
+Arrived at a reliable solution 
