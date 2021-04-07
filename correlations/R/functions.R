@@ -67,7 +67,7 @@ name_changer_2 <- function(data, type){
   return(new)
 }
 
-get_dis_mat_p1 <- function(dis_mat, tree, file_1, file_2, file_3){
+get_dis_mat_p1 <- function(dis_mat, tree, file_1, file_2, file_3, model){
   
   dis_mat[which(grepl("Hylobates", dis_mat[,1])),2]<-1
   trait1<-dis_mat[,2]
@@ -85,17 +85,16 @@ get_dis_mat_p1 <- function(dis_mat, tree, file_1, file_2, file_3){
   sink(file_2)
   make.simmap(tree_1, trait1)
   sink()
+  
   pdf(file=file_3)
   plotSimmap(make.simmap(tree_1, trait1), pts=FALSE, fsize=0.8)
   dev.off()
   
-  rate.mat.er<-corHMM:::rate.mat.maker(rate.cat=1, hrm=FALSE, ntraits=1, nstates=2, 
-                              model="ER")
-  sink(file_2)
-  print(rate.mat.er)
-  sink()
+  rate.mat <- corHMM:::rate.mat.maker(rate.cat=1, hrm=FALSE, ntraits=1, nstates=2, 
+                              model=model)
   
-  return(list("trait"=trait1, "tree"=tree_1, "rate"=rate.mat.er))
+  meep = list("trait"=trait1, "tree"=tree_1, "rate"=rate.mat)
+  return(meep)
 }
  
 plot_with_line <- function(x, y, line, file_name){
@@ -117,6 +116,18 @@ get_corHMM <- function(tree, trait, rate, type) {
   
   file_name = paste0("results/corHMM_",type,"_",names(trait)[2])
   sink(file_name)
+  print(temp)
+  sink()
+  
+  return(temp)
+  
+}
+
+save_me_general <- function(thing, name){
+  
+  temp <- thing
+  filename = paste0("results/",name)
+  sink(file = filename)
   print(temp)
   sink()
   

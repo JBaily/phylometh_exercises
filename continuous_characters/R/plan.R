@@ -131,7 +131,7 @@ plan <- drake_plan(
   likelihood.values = rep(NA, length(alpha.values)),
   print(likelihood.values),
   likelihood.values_2 = mass_likelihood(labeled.tree, ouwie_continuous, 
-                                         "OUMV", alpha.values, 
+                                         best$model, alpha.values, 
                                         likelihood.values, best),
   print(likelihood.values_2),
   
@@ -151,7 +151,7 @@ plan <- drake_plan(
                     #center on optimal value, have extra variance
   likelihood.values_theta = rep(NA,nreps),
   likelihood.values_theta_2 = mass_likelihood_theta(labeled.tree, 
-                                                    ouwie_continuous, "OUMV", 
+                                                    ouwie_continuous, best$model, 
                                                     nreps, best, theta1.points, 
                                                     theta2.points, 
                                                     likelihood.values_theta),
@@ -185,32 +185,20 @@ plan <- drake_plan(
   tree.splot = plotSimmap(tree.mapped,named_leg,pts=FALSE,ftype="off", lwd=1),
   
   #ouwie.swap = 
-  simmapBased = OUwie(tree.mapped,ouwie_continuous,model="OUMV", 
+  simmapBased = OUwie(tree.mapped,ouwie_continuous,model=best$model, 
                       simmap.tree=TRUE, diagn=FALSE),
   print(simmapBased),
   print(best),
   
+  save_me_general(simmapBased, "simmap_best_model")
   
   #How this compares to best model from above? 
   #The best model is much better, with a lnL of ~125 as compared to the lnL of 
-  #the simmap model where the lnL is -10.95. Even comparing the OUMV result
-  #from the ouwie with continuous data, the simmap falls short (sim: -10.9538,
-  # cont: -10.80084), though only by a little bit.  
-  
-  #In this case, I think they're comparable, in the sense that you can look at 
-  #both and choose one for use in further analysis, as the OUMV loglik is 
-  #similar regardless of whether or not it was made from mantle length data
-  #or tentacle presence data. 
-  
-  #***Side-note***$#
-  #I'm slightly skeptical as to whether the OUMA model is as spectacular as 
-  #the loglik wants me to think it is--and very well could be an artifact of 
-  #how few data points are in this particular data set, but I'm going with it
-  #as the "best" model for the purposes of this exercise. I just can't think of
-  #any errors I could have made during the coding process that would have 
-  #caused any issues with that command (especially given how similar the loglik
-  #was in between the OUMV model developed by the command and the simmap with
-  #totally different character data). I could very well be interpreting it wrong
-  #if you (Brian) notice anything wrong with my conceptual understanding of the
-  #model outputs, please let me know! 
+  #the simmap model where the lnL is -8.127, so no, they're not really 
+  #comparable. However, I think the major reason for the loglik discrepancy
+  #is the quality of data that was used to make each model. The continuous
+  #data (mantle_length) is more informative than this particular set of discrete
+  #data (presence_of_tentacles), so it logically follows that the model 
+  #developed from this set of continuous data is better than one that is 
+  #developed from this set of discrete data. 
   )

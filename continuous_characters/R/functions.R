@@ -138,7 +138,7 @@ is.better <- function(rate1, name1, delta1, rate2, name2, delta2){
   
   else{
     
-    return(paste0(name1, " is better than ", name2, ",with a support of a delta",
+    return(paste0(name1, " is better than ", name2,",with a support of a delta",
                   " AIC of ", delta2))
     
   }
@@ -232,6 +232,7 @@ plot_alpha <- function(x, y, xlim, ylim, best){
        pos=4, col="red")
   abline(h= best$loglik - 2, lty="dotted")
   dev.off()
+  print("Done.")
 } 
 
 mass_likelihood_theta <- function(tree, data, model, reps, best, theta1, theta2, 

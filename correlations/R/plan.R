@@ -40,16 +40,47 @@ plan <- drake_plan(
   dis_mat_temp = get_dis_mat_p1(primates$trait, primates$tree, 
                                 file_1="results/trait_1.txt", 
                                 file_2="results/simmap_info.txt",
-                                file_3="results/trait1_simmap"),
+                                file_3="results/trait1_simmap", 
+                                model="ER"),
   
   #This matrix refers to the rate at which the traits change. 
   # In this instance, it means that the rate of going from state 1 to state 2 
-  # and vice-versa are identical (1:1). 
+  # and vice-versa are identical. 
   
   testing = as.data.frame(name_changer_2(dis_mat_temp$trait, "Trait1")),
   test_named = col_nam_frame("Trait1", 2, testing),
   pp.er = get_corHMM(dis_mat_temp$tree, test_named, 
                      dis_mat_temp$rate, type="marginal"),
+  print(pp.er),
+  save_me_general(pp.er, "pp_er_rates"),
+  
+  #This matrix refers to the optimized transition rates that underlie the 
+  #evolution of this binary character, using the general rate matrix estimated
+  #by the ER model. 
+  
+  dis_mat_temp_ARD = get_dis_mat_p1(primates$trait, primates$tree, 
+                                file_1="results/trait_1_ard.txt", 
+                                file_2="results/simmap_info_ard.txt",
+                                file_3="results/trait1_simmap_ard", 
+                                model="ARD"),
+  pp.ard = get_corHMM(dis_mat_temp_ARD$tree, test_named, 
+                     dis_mat_temp_ARD$rate, type="marginal"),
+  print(pp.ard),
+  save_me_general(pp.ard, "pp_ard_rates"),
+  
+  #This matrix refers to the optimized transition rates that underlie the
+  #evolution of this binary charaacter, using the general rate matrix estimated
+  #by the ARD model. 
+  
+  #In terms of which one is better, the ARD model is SLIGHTLY better, with a 
+  #SLIGHTLY higher loglik value (ARD:-23.4031 > ER: -23.41535).
+  
+  
+  
+  
+  
+  
+  
   
   
   )
