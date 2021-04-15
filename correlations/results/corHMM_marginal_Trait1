@@ -1,11 +1,11 @@
 
 Fit
-     -lnL     AIC     AICc Rate.cat ntax
- -23.4031 50.8062 51.01673        1   60
+      -lnL     AIC     AICc Rate.cat ntax
+ -23.41535 48.8307 48.89966        1   60
 
 Rates
-           (1,R1)     (2,R1)
-(1,R1)         NA 0.01012485
-(2,R1) 0.01143908         NA
+          (1,R1)    (2,R1)
+(1,R1)        NA 0.0107643
+(2,R1) 0.0107643        NA
 
 Arrived at a reliable solution 

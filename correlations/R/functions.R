@@ -67,7 +67,7 @@ name_changer_2 <- function(data, type){
   return(new)
 }
 
-get_dis_mat_p1 <- function(dis_mat, tree, file_1, file_2, file_3, model){
+get_dis_mat_p1 <- function(dis_mat, tree, file_1, file_2, file_3, model, nstates){
   
   dis_mat[which(grepl("Hylobates", dis_mat[,1])),2]<-1
   trait1<-dis_mat[,2]
@@ -90,13 +90,22 @@ get_dis_mat_p1 <- function(dis_mat, tree, file_1, file_2, file_3, model){
   plotSimmap(make.simmap(tree_1, trait1), pts=FALSE, fsize=0.8)
   dev.off()
   
-  rate.mat <- corHMM:::rate.mat.maker(rate.cat=1, hrm=FALSE, ntraits=1, nstates=2, 
-                              model=model)
+  rate.mat <- corHMM:::rate.mat.maker(rate.cat=1, hrm=FALSE, ntraits=1, 
+                                      nstates=nstates, model=model)
   
   meep = list("trait"=trait1, "tree"=tree_1, "rate"=rate.mat)
   return(meep)
 }
  
+get_dis_mat_p2 <- function(ntraits, nstates, model){
+
+  
+  rate.mat <- corHMM:::rate.mat.maker(rate.cat=1, hrm=FALSE, ntraits=ntraits, 
+                                      model = model, nstates = nstates)
+  print(rate.mat)
+  return(rate.mat)
+}
+
 plot_with_line <- function(x, y, line, file_name){
   
   plot(x,y)
@@ -131,4 +140,88 @@ save_me_general <- function(thing, name){
   print(temp)
   sink()
   
+}
+
+assign_four <- function(state, tree, trait){
+  
+  for(i in sequence(Ntip(tree))) {
+    if(trait[i,2]==0 && trait[i,3]==0) {
+      state[i]<-0
+    }
+    if(trait[i,2]==0 && trait[i,3]==1) {
+      state[i]<-1
+    }
+    if(trait[i,2]==1 && trait[i,3]==0) {
+      state[i]<-2
+    }
+    if(trait[i,2]==1 && trait[i,3]==1) {
+      state[i]<-3
+    }
+  }
+  
+  return(state)
+}
+
+remove_4 <- function(rate){
+  
+  temp <- rate
+  temp <-temp[-4,]
+  temp <- temp[,-4]
+  
+  return(temp)
+}
+
+edit_value <- function(rate, new_value, row, column){
+  
+  temp <- rate
+  temp[row, column] <- new_value
+  return(temp)
+  
+}
+
+gtr_conv <- function(rate){
+  
+  gtr.4state <- rate
+  
+  gtr.4state <- corHMM:::rate.par.eq(rate, c(1,4))
+  gtr.4state <- corHMM:::rate.par.eq(rate, c(2,6))
+  gtr.4state <- corHMM:::rate.par.eq(rate, c(3,8))
+  gtr.4state <- corHMM:::rate.par.eq(rate, c(4,6))
+  gtr.4state <- corHMM:::rate.par.eq(rate, c(5,7))
+  gtr.4state <- corHMM:::rate.par.eq(rate, c(6,7))
+
+  return(gtr.4state)
+  
+}
+
+add_zeroes <- function(matrix){
+  temp <- matrix 
+  for(i in 1:dim(temp)[1]){
+    
+    temp[i,i] <- 0
+    
+  }
+  return(temp)
+}
+
+rate_pagel <- function(rate, drop_vector){
+  
+  temp <- corHMM:::rate.par.drop(rate, drop.par=drop_vector)
+  
+  print(temp)
+  return(temp)
+  
+}
+
+rate_change_terms <- function(rate, rows, columns, values){
+  
+  temp <- rate
+  for(i in 1:length(rows)) {
+    
+    temp[rows[i], columns[i]] <- values[i]
+    
+  }
+  
+  print(temp)
+  return(temp)
 }

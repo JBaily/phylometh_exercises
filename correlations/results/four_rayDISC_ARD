@@ -1,0 +1,12 @@
+
+Fit
+      -lnL      AIC     AICc ntax
+ -41.78553 95.57106 97.15596   60
+
+Rates
+             0          1           3
+0           NA 0.01134230 0.006302481
+1 5.786264e-02         NA 0.007106872
+3 7.582560e-10 0.01664518          NA
+
+Arrived at a reliable solution 
