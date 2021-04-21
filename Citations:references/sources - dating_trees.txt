@@ -1,0 +1,15 @@
+Sources and Data
+
+https://academic.oup.com/mollus/article/83/2/133/2967092
+
+https://bmcecolevol.biomedcentral.com/articles/10.1186/1471-2148-12-129
+
+MRCA times
+
+Group early late species1 species 2
+
+Neocoleoidea 205 195 'Hapalochlaena_lunulata' 'Metasepia_pfefferi'
+Decapodiformes 125 115 'Metasepia_pfefferi' 'Sepiola_atlantica'
+Sepioidea 50 45 'Sepia_officinalis' 'Metasepia_pfefferi'
+Octopoda 155 145 'Hapalochlaena_lunulata' 'Enteroctopus_dofleini'
+
